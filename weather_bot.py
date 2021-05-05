@@ -32,25 +32,26 @@ def welcome(message):
                                       f', напиши мне название города, а я тебе скажу, какая погода в нем!') #Сообщение при запуске
 
 @bot.message_handler(commands = ['url'])
-def url(message):
+def url1(message):
     markup1 = types.InlineKeyboardMarkup()
     btn_my_site1 = types.InlineKeyboardButton(text='Перейти на сайт', url='https://ivi.ru')
     markup1.add(btn_my_site1)
 
+	
 @bot.message_handler(commands = ['url'])
-def url(message):
+def url2(message):
     markup2 = types.InlineKeyboardMarkup()
     btn_my_site2 = types.InlineKeyboardButton(text='Перейти на сайт', url='https://litres.ru')
     markup2.add(btn_my_site2)
 
 @bot.message_handler(commands = ['url'])
-def url(message):
+def url3(message):
     markup3 = types.InlineKeyboardMarkup()
     btn_my_site3 = types.InlineKeyboardButton(text='Перейти на сайт', url='https://lamoda.ru')
     markup3.add(btn_my_site3)
 
 @bot.message_handler(commands = ['url'])
-def url(message):
+def url4(message):
     markup4 = types.InlineKeyboardMarkup()
     btn_my_site4 = types.InlineKeyboardButton(text='Перейти на сайт', url='https://leroymerlin.ru')
     markup4.add(btn_my_site4)
@@ -68,17 +69,17 @@ def test(message):
             status = bot.send_photo(message.chat.id, 'http://f0535055.xsph.ru/1/ivi.jpeg', "Сейчас в городе " + str(weather["name"]) + " температура " +
                          str(weather["main"]['temp']) + "°C" + "\n" +
                          "Влажность: " + str(int(weather['main']['humidity'])) + "%" + "\n" +
-                         "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message1, reply_markup = markup1))
+                         "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message1))
         elif weather["main"]['temp'] < 0:   # - 10 - 0
             status = bot.send_photo(message.chat.id, 'http://f0535055.xsph.ru/1/litres.jpeg', "Сейчас в городе " + str(weather["name"]) + " температура " +
                          str(weather["main"]['temp']) + "°C" + "\n" +
                          "Влажность: " + str(int(weather['main']['humidity'])) + "%" + "\n" +
-                         "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message2, reply_markup = markup2))
+                         "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message2))
         elif weather["main"]['temp'] < 10:  #от 0 до +10
             status = bot.send_photo(message.chat.id, 'http://f0535055.xsph.ru/1/lamoda.jpeg', "Сейчас в городе " + str(weather["name"]) + " температура " +
                          str(weather["main"]['temp']) + "°C" + "\n" +
                          "Влажность: " + str(int(weather['main']['humidity'])) + "%" + "\n" +
-                         "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message3, reply_markup = markup3))
+                         "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message3))
  #   elif weather["main"]['temp'] < 80:  #при +30
  #       status = bot.send_photo(message.chat.id, 'https://darkside.guru/files/404city.png', "Сейчас в городе " + str(weather["name"]) + " температура " +
   #                   str(weather["main"]['temp']) + "°C" + "\n" +
@@ -88,7 +89,7 @@ def test(message):
             status = bot.send_photo(message.chat.id, 'http://f0535055.xsph.ru/1/sad.jpeg', "Сейчас в городе " + str(weather["name"]) + " температура " +
                          str(weather["main"]['temp']) + "°C" + "\n" +
                          "Влажность: " + str(int(weather['main']['humidity'])) + "%" + "\n" +
-                         "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message4, reply_markup = markup4))
+                         "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message4))
 	
        # bot.send_message(message.chat.id, "Сейчас в городе " + str(weather["name"]) + " температура " +
        #                 str(weather["main"]['temp']) + "°C" + "\n" +
