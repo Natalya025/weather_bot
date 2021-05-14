@@ -1,6 +1,7 @@
 import requests
 import telebot
 from telebot import types
+from geopy.geocoders import Nominatim
 import random
 
 url = 'http://api.openweathermap.org/data/2.5/weather' #open weather url
@@ -28,16 +29,32 @@ random_message3 = random.choice(message3)
 random_message4 = random.choice(message4)
 
 @bot.message_handler(commands=['start']) #старт
-def welcome(message):
+def start(message):
+    markup=types.ReplyKeyboardMarkup().add(types.KeyboardButton(text = 'Отправить местоположение', request_location=True))
     bot.send_message(message.chat.id, f'Привет!  {message.from_user.first_name}'
-                                      f', напиши мне название города, а я тебе скажу, какая погода в нем!') #Сообщение при запуске
+                                      f', напиши название города или отправь геолокацию, а я тебе скажу погоду в нем!', reply_markup = markup) #Сообщение при запуске
 
 @bot.message_handler(content_types=['text']) #обработчик
-def test(message):
-    city_name = message.text
+def city_weather(message):
+    city = message.text
+    weather(message , city)
 
+    
+
+@bot.message_handler(content_types=['location'])
+def location_weather(message):
+    geolocator = Nominatim(user_agent='telebot', timeout=3)
+    location = geolocator.reverse(str(message.location.latitude) + ', ' + str(message.location.longitude), exactly_one=True, language='ru')
     try:
-        params = {'APPID': api_open_weather, 'q': city_name, 'units': 'metric', 'lang': 'ru'}
+        city = location.raw['address']['city']
+        weather(message, city)
+    except:
+        city = location.raw['address']['town']
+        weather(message, city)
+        
+def weather(message, city):
+    try:
+        params = {'APPID': api_open_weather, 'q': city, 'units': 'metric', 'lang': 'ru'}
         result = requests.get(url, params=params)#параметры api open weather
         weather = result.json()#экспорт параметров
 
@@ -67,7 +84,6 @@ def test(message):
 
     except:
         bot.send_photo(message.chat.id, 'https://darkside.guru/files/404city.png', "Город " + city_name + " не найден") # сообщение в случае если город не найден
-		
 print("Started!")#сообщение в консоль
 bot.polling(none_stop=True)
 print("")
