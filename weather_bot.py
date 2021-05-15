@@ -39,8 +39,6 @@ def city_weather(message):
     city = message.text
     weather(message , city)
 
-    
-
 @bot.message_handler(content_types=['location'])
 def location_weather(message):
     geolocator = Nominatim(user_agent='telebot', timeout=3)
@@ -49,8 +47,11 @@ def location_weather(message):
         city = location.raw['address']['city']
         weather(message, city)
     except:
-        city = location.raw['address']['town']
-        weather(message, city)
+        try:
+            city = location.raw['address']['town']
+            weather(message, city)
+        except:
+            bot.send_message(message.chat.id, 'Ошибка! Попробуйте еще раз или укажите другой город!')
         
 def weather(message, city):
     try:
@@ -80,10 +81,9 @@ def weather(message, city):
                          "Влажность: " + str(int(weather['main']['humidity'])) + "%" + "\n" +
                          "На улице сейчас " + str(weather['weather'][0]["description"]+"\n"+message4), reply_markup=types.InlineKeyboardMarkup().add(types.InlineKeyboardButton(text = 'Перейти на сайт', url = link4)))
 	
-
-
     except:
-        bot.send_photo(message.chat.id, 'https://darkside.guru/files/404city.png', "Город " + city_name + " не найден") # сообщение в случае если город не найден
+        bot.send_photo(message.chat.id, 'https://darkside.guru/files/404city.png', "Город " + city + " не найден") # сообщение в случае если город не найден
+
 print("Started!")#сообщение в консоль
 bot.polling(none_stop=True)
 print("")
